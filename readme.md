@@ -14,17 +14,23 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 
 ## 📂 Project Structure
 ```
-tdd-with-python
-│── .venv
-│── superlists
-    │── __init__.py
-    │── asgi.py
-    │── settings.py
-    │── urls.py
-    │── wsgi.py
-│── .gitignore
-│── db.sqlite3
-|── functional_test.py
-│── manage.py
-│── readme.md
+.
+├── db.sqlite3
+├── functional_tests.py
+├── lists
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+└── superlists
+    ├── __init__.py
+    ├── asgi.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
 ```
