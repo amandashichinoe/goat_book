@@ -12,4 +12,8 @@ class HomePageTest(TestCase):
         self.assertTrue(html.startswith("<html>"))
         self.assertTrue(html.endswith("</html>"))
 
-    # Can we tell Django to use this view function when make a request for the root of the site ("/")?
+
+    def test_home_page_returns_correct_html_2(self):
+        # Can we tell Django to use this view function when make a request for the root of the site ("/")?
+        response = self.client.get("/")
+        self.assertContains(response, "<title>To-Do lists</title>")
