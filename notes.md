@@ -62,6 +62,63 @@ As any web server, Django's main job is to decide what to do when a user asks fo
 
 ```
 
+## The TDD process 
+
+### Red, Green, Refactor
+1. We write a test, and see it fail ("Red)
+2. We cycle between code and tests until the test passes ("Green")
+3. Then, we look for opportunities to refactor
+4. Repeat as required
+
+
+### Including the unit test/code cycle
+
+```
+                              Unit test/code cycle
+                           |-----------------------| 
+                           | |-------------------| |
+            |------------> | |   Run the test.   | |-- yes (GREEN) -|
+            |              | |   Does it pass?   | |                |
+|---------------|          | |-------------------| |                v
+|  Write a test |          |      |         ^      |        |--------------|
+|---------------|          |   no (RED)     |      |        | Does it need |
+         ^                 |      |         |      |        | refactoring? |
+         |                 |      v         |      |        |--------------|
+         |                 | |-------------------| |             |     |
+         |                 | |     Write/fix     | |<--- yes ----|     |
+         |                 | |    minimal code   | |                   |
+         |                 | |-------------------| |                   |
+         |                 |-----------------------|                   |
+         |                                                             |
+         |------------------------------------------------ no ---------| 
+
+
+
+```
+
+### Double-loop TDD
+
+```
+                                                     
+                             |-------------------|  
+                  |------->  |        RED        |  ---------------|
+                  |          |    (failing FT)   |                 v
+                  |          |-------------------|              |-------|
+      write a new |                                         |-> |  RED  |--------------|
+  functional test |             functional tests            |   |-------|              v
+(FT) for the next |                  loop                   |                      |-------|
+     feature      |                                         |           unit       | GREEN |
+                  |          |--------------------|     |----------|    tests      |-------|
+                  |          |      GREEN         |     | refactor |     loop          |
+                  |----------| FT passes, feature |     |----------|<------------------|
+                             |     is complete    |                     
+                             |--------------------|                        |
+                                       ^                                   |
+                                       |-----------------------------------|
+
+
+
+```
 ## Useful Commands
 ```
 # Running the Django dev server
