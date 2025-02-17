@@ -139,9 +139,12 @@ As any web server, Django's main job is to decide what to do when a user asks fo
 python manage.py runserver
 
 # Running the functional tests
-python functional_tests.py
+python manage.py test functional_tests
 
 # Running the unit tests
+python manage.py test lists
+
+# Run all the tests
 python manage.py test
 
 # Generating migration files based on changes made to Django models (models.py)
@@ -154,3 +157,8 @@ python manage.py migrate
 rm db.sqlite3
 python manage.py migrate --noinput
 ```
+
+## Testing Best Practices
+- **Ensure test isolation**: Different tests shouldn't affect one another, i.e. we need to reset any permanent state at the end of each test.
+- **Avoid voodoo sleeps**: The length of time we wait is always a bot of a shot in the dark. Either too short and vulnerable to spurious failures, or too long and it'll slow down our test runs. Prefer a retry loop that polls our app and moves on as soon as possible.
+- **Don't rely on Selenium's implicit waits**: The implementation of the implicit waits varies between browsers, and is not always reliable. Remember: "Explict is better than implicit".
