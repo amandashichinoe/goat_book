@@ -16,14 +16,20 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 ```
 .
 ├── db.sqlite3
-├── functional_tests.py
+├── functional_tests
+│   ├── __init__.py
+│   ├── tests.py
 ├── lists
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_item_text.py
 │   │   └── __init__.py
 │   ├── models.py
+│   ├── templates
+│   │   └── home.html
 │   ├── tests.py
 │   └── views.py
 ├── manage.py
