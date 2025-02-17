@@ -16,6 +16,20 @@
    - When a test fails in the way we expect it to.
    - This can be useful for testing failure scenarios and ensuring the application handles them correctly.
 
+**Unexpected failure**<br>
+When a test fails in a way we weren’t expecting. This either means that we’ve made a mistake in our tests, or that the tests have helped us find a regression, and we need to fix something in our code.
+
+**Regression**<br>
+When a change unexpectedly breaks some aspect of the application which used to work.
+
+**Triangulation**<br>
+Adding a test case with a new specific example for some existing code, to justify generalising the implementation (which may be a "cheat" until that point).
+
+**Three strikes and refactor**<br>
+A rule of thumb for when to remove duplication from code. When two pieces of code look very similar, it often pays to wait until you see a third use case, so that you’re more sure about what part of the code really is the common, re-usable part to refactor out.
+
+**Migrations**<br>
+In Django, are files that track database schema changes (such as creating tables, modifying fields, or deleting columns) in a version-controlled and automated way. Without migrations, we would have to manuallymodify the database whenever models change, which is error-prone and hard to maintain.
 
 ## Functional Tests vs Unit Tests
 
@@ -129,4 +143,14 @@ python functional_tests.py
 
 # Running the unit tests
 python manage.py test
+
+# Generating migration files based on changes made to Django models (models.py)
+python manage.py makemigrations
+
+# Applying pending migrations to the database, keeping the schema up to date
+python manage.py migrate
+
+# Deleting the SQLite database; recreating database tables by applying all migrations
+rm db.sqlite3
+python manage.py migrate --noinput
 ```
