@@ -29,7 +29,8 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 │   │   └── __init__.py
 │   ├── models.py
 │   ├── templates
-│   │   └── home.html
+│   │   ├── home.html
+│   │   └── list.html
 │   ├── tests.py
 │   └── views.py
 ├── manage.py
