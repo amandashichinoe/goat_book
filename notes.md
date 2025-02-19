@@ -133,6 +133,12 @@ As any web server, Django's main job is to decide what to do when a user asks fo
 
 
 ```
+
+## TDD Philosophy
+- Working State to Working State: Take one step at time, and go from working state to working state
+- Split work out into small, achievable tasks
+- YAGNI: You ain't gonna need it! Avoid the temptation to write code that you **think** *might* be useful, just because it suggests itself at the time. Chances are, you won’t use it, or you won’t have anticipated your future requirements correctly
+
 ## Useful Commands
 ```
 # Running the Django dev server
