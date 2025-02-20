@@ -28,6 +28,16 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 │   │   ├── 0002_item_text.py
 │   │   └── __init__.py
 │   ├── models.py
+│   ├── static
+│   │   └── bootstrap
+|   │       ├── css
+|   |       │   ├── bootstrap-grid.css
+│   │       |   ├── [...]
+│   │       |   └── bootstrap.rtl.min.css.map
+|   │       └── js
+|   |           ├── bootstrap.bundle.js
+│   │           ├── [...]
+│   │           └── bootstrap.min.js.map
 │   ├── templates
 │   │   ├── home.html
 │   │   └── list.html
