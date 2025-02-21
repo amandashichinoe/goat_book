@@ -162,9 +162,20 @@ python manage.py migrate
 # Deleting the SQLite database; recreating database tables by applying all migrations
 rm db.sqlite3
 python manage.py migrate --noinput
+
+# To pick up all the CSS/JS files for the apps listed in settings.py (INSTALED_APPS)
+# and copy them into a single location defined in settings.py as STATIC_ROOT
+python manage.py collectstatic
 ```
 
 ## Testing Best Practices
 - **Ensure test isolation**: Different tests shouldn't affect one another, i.e. we need to reset any permanent state at the end of each test.
 - **Avoid voodoo sleeps**: The length of time we wait is always a bot of a shot in the dark. Either too short and vulnerable to spurious failures, or too long and it'll slow down our test runs. Prefer a retry loop that polls our app and moves on as soon as possible.
 - **Don't rely on Selenium's implicit waits**: The implementation of the implicit waits varies between browsers, and is not always reliable. Remember: "Explict is better than implicit".
+
+
+## Next steps
+Apply improvements suggested by the author. A few candidates for further study:
+- The `{% static %}` template tag, for more DRY and fewer hardcoded URLs
+- Client-side packaging tools, like `npm` and `bower`
+- Customising bootstrap with SASS
