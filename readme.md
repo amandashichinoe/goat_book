@@ -15,39 +15,43 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 ## 📂 Project Structure
 ```
 .
+├── Dockerfile
 ├── db.sqlite3
-├── functional_tests
-│   ├── __init__.py
-│   ├── tests.py
-├── lists
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_item_text.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── static
-│   │   └── bootstrap
-|   │       ├── css
-|   |       │   ├── bootstrap-grid.css
-│   │       |   ├── [...]
-│   │       |   └── bootstrap.rtl.min.css.map
-|   │       └── js
-|   |           ├── bootstrap.bundle.js
-│   │           ├── [...]
-│   │           └── bootstrap.min.js.map
-│   ├── templates
-│   │   ├── home.html
-│   │   └── list.html
-│   ├── tests.py
-│   └── views.py
-├── manage.py
-└── superlists
-    ├── __init__.py
-    ├── asgi.py
-    ├── settings.py
-    ├── urls.py
-    └── wsgi.py
+├── src
+|   ├── functional_tests
+|   │   ├── __init__.py
+|   │   ├── tests.py
+|   ├── lists
+|   │   ├── __init__.py
+|   │   ├── admin.py
+|   │   ├── apps.py
+|   │   ├── migrations
+|   │   │   ├── 0001_initial.py
+|   │   │   ├── 0002_item_text.py
+|   │   │   └── __init__.py
+|   │   ├── models.py
+|   │   ├── static
+|   │   │   └── bootstrap
+|   |   │       ├── css
+|   |   |       │   ├── bootstrap-grid.css
+|   │   │       |   ├── [...]
+|   │   │       |   └── bootstrap.rtl.min.css.map
+|   |   │       └── js
+|   |   |           ├── bootstrap.bundle.js
+|   │   │           ├── [...]
+|   │   │           └── bootstrap.min.js.map
+|   │   ├── templates
+|   │   │   ├── home.html
+|   │   │   └── list.html
+|   │   ├── tests.py
+|   │   └── views.py
+|   ├── manage.py
+|   └── superlists
+|       ├── __init__.py
+|       ├── asgi.py
+|       ├── settings.py
+|       ├── urls.py
+|       └── wsgi.py
+└──static
+    └── [...]
 ```
