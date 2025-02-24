@@ -150,7 +150,7 @@ python manage.py test functional_tests
 # Running the unit tests
 python manage.py test lists
 
-# Run all the tests
+# Running all the tests
 python manage.py test
 
 # Generating migration files based on changes made to Django models (models.py)
@@ -166,6 +166,16 @@ python manage.py migrate --noinput
 # To pick up all the CSS/JS files for the apps listed in settings.py (INSTALED_APPS)
 # and copy them into a single location defined in settings.py as STATIC_ROOT
 python manage.py collectstatic
+
+# Running the functional tests and exiting as soon a single test fails (using the flag --failfast)
+TEST_SERVER=localhost:8888 ./manage.py test functional_tests --failfast
+
+# Building the image created and run the container server
+docker build -t superlists . && \ 
+docker run \
+-p 8888:8888 \
+--mount type=bind,source="$PWD/src/db.sqlite3",target=/src/db.sqlite3 \
+-it superlists
 ```
 
 ## Testing Best Practices
