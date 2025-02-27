@@ -170,11 +170,19 @@ python manage.py collectstatic
 # Running the functional tests and exiting as soon a single test fails (using the flag --failfast)
 TEST_SERVER=localhost:8888 ./manage.py test functional_tests --failfast
 
-# Building the image created and run the container server
+# Building the image created and running the container server
 docker build -t superlists . && \ 
 docker run \
 -p 8888:8888 \
 --mount type=bind,source="$PWD/src/db.sqlite3",target=/src/db.sqlite3 \
+-it superlists
+
+# Building the image created and running the container server (defining as environment variables sensitive configuration)
+docker run -p 8888:8888 \
+--name superlists_app \
+--mount type=bind,source="$PWD/src/db.sqlite3",target=/src/db.sqlite3 \
+-e DJANGO_SECRET_KEY=<PROD secret key> \
+-e DJANGO_ALLOWED_HOST=<e.g.: localhost> \
 -it superlists
 ```
 
@@ -182,6 +190,14 @@ docker run \
 - **Ensure test isolation**: Different tests shouldn't affect one another, i.e. we need to reset any permanent state at the end of each test.
 - **Avoid voodoo sleeps**: The length of time we wait is always a bot of a shot in the dark. Either too short and vulnerable to spurious failures, or too long and it'll slow down our test runs. Prefer a retry loop that polls our app and moves on as soon as possible.
 - **Don't rely on Selenium's implicit waits**: The implementation of the implicit waits varies between browsers, and is not always reliable. Remember: "Explict is better than implicit".
+
+
+## Production-Readlines Config
+- **Don't use Django dev server in production**: Something like Gunicorn or uWSGI is abetter tool for running Django; it will let you run multple workers, for example.
+- **Decide how to serve your static files**: Static files aren't the same kind of things as the dynamic content that comes from Django and your webapp, so they need to be treated differently. WhiteNoise is just one example of how you might do that.
+- **Check your settings.py for dev-only config**: DEBUG=True, ALLOWED_HOSTS and SECRET_KEY are the ones we came accross, but you will probably have others.
+- **Change things one at time and rerun your tests frequently**: Whenever we make a change to our server configuration, we can rerun the test suite, and either be confident that everything works as well as it did before, or find our immediately if we did something wrong.
+- **Think about logging and observability**: When things go wrong, you need to be able to find out what happened. At a minimum you need a way of getting logs and tracebacks out of your server, and in more advanced environments you'll want to think about metrics and tracing too.
 
 
 ## Next steps
