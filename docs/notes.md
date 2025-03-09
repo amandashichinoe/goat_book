@@ -184,6 +184,12 @@ docker run -p 8888:8888 \
 -e DJANGO_SECRET_KEY=<PROD secret key> \
 -e DJANGO_ALLOWED_HOST=<e.g.: localhost> \
 -it superlists
+
+# Testing if we can log in
+ssh <user>@<domain name starting with staging.>
+
+# Testing if we can access our remote server using Ansible
+ansible-playbook --user=<user created> -i <domain name starting with 'staging.'>, infra/deploy-playbook.yaml -vv
 ```
 
 ## Testing Best Practices
@@ -198,10 +204,3 @@ docker run -p 8888:8888 \
 - **Check your settings.py for dev-only config**: DEBUG=True, ALLOWED_HOSTS and SECRET_KEY are the ones we came accross, but you will probably have others.
 - **Change things one at time and rerun your tests frequently**: Whenever we make a change to our server configuration, we can rerun the test suite, and either be confident that everything works as well as it did before, or find our immediately if we did something wrong.
 - **Think about logging and observability**: When things go wrong, you need to be able to find out what happened. At a minimum you need a way of getting logs and tracebacks out of your server, and in more advanced environments you'll want to think about metrics and tracing too.
-
-
-## Next steps
-Apply improvements suggested by the author. A few candidates for further study:
-- The `{% static %}` template tag, for more DRY and fewer hardcoded URLs
-- Client-side packaging tools, like `npm` and `bower`
-- Customising bootstrap with SASS
