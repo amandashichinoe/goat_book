@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if "DJANGO_DEBUG_FALSE" in os.environ:
     DEBUG = False
     SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-    ALLOWED_HOSTS = [os.environ["DJANGO_ALLOWED_HOST"]]
+    ALLOWED_HOSTS = [os.environ["DJANGO_ALLOWED_HOSTS"]]
 else:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True

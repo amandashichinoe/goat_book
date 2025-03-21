@@ -8,6 +8,11 @@ from selenium.webdriver.common.keys import Keys
 
 MAX_WAIT = 5
 
+from selenium.webdriver.firefox.options import Options
+
+options = Options()
+options.add_argument("--headless")
+
 
 class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
