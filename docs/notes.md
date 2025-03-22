@@ -188,8 +188,23 @@ docker run -p 8888:8888 \
 # Testing if we can log in
 ssh <user>@<domain name starting with staging.>
 
-# Testing if we can access our remote server using Ansible
+# Running our tests against a standalone server, instead of the one that LiveServerTestCase creates for us
+TEST_SERVER=localhost:8888 ./manage.py test functional_tests --failfast
+
+# Running the ansible-playbook created
 ansible-playbook --user=<user created> -i <domain name starting with 'staging.'>, infra/deploy-playbook.yaml -vv
+
+# Check the container logs
+# docker logs <container-name>
+docker logs superlists
+
+# Get detailed info on the container
+# docker inspect <container-name>
+docker inspect superlists
+
+# To inspect the image
+# docker image inspect <image-name>
+docker image inspect superlists
 ```
 
 ## Testing Best Practices
@@ -204,3 +219,33 @@ ansible-playbook --user=<user created> -i <domain name starting with 'staging.'>
 - **Check your settings.py for dev-only config**: DEBUG=True, ALLOWED_HOSTS and SECRET_KEY are the ones we came accross, but you will probably have others.
 - **Change things one at time and rerun your tests frequently**: Whenever we make a change to our server configuration, we can rerun the test suite, and either be confident that everything works as well as it did before, or find our immediately if we did something wrong.
 - **Think about logging and observability**: When things go wrong, you need to be able to find out what happened. At a minimum you need a way of getting logs and tracebacks out of your server, and in more advanced environments you'll want to think about metrics and tracing too.
+
+## Handling line endings issues between Windows and Linux
+While working with Ansible on WSL, I ran into an issue where the `ansible-playbook` command was failing due to line endings being formatted for Windows(`CRLF`) instead of Linux (`LF`).
+```
+"stderr_lines": [
+  "env: use -[v]S to pass options in shebang lines",
+  "/usr/bin/env: 'python\r': No such file or directory"
+]
+```
+To resolve it, I took the following steps:
+1. Convert line endings to Unix-style (LF), clicking on the CRLF symbol in the bottom-right corner, selecting the option LF, and saving the files.
+2. Enforce LF in Git, adding a `.gitattributes` file to the root of the project with the following content:
+```
+*.py text eol=lf
+```
+And running the following commands to reformat the files in Git:
+```
+git add --renormalize .
+git commit -m "Normalize line endings to LF"
+```
+
+## A brief recap of a typical set of steps for deployment in general
+1. Provisioning a server
+2. Installing system dependencies
+3. Getting our application code (or artifacts) onto the server
+4. Setting environment variables and secrets
+5. Attaching the Database
+6. Configuring networking and port mapping
+7. Running Database migrations
+8. Switching across to the new version of our application

@@ -15,45 +15,57 @@ The book *TDD with Python* teaches the Test-Driven Development (TDD) methodology
 ## 📂 Project Structure
 ```
 .
-├── Dockerfile
-├── db.sqlite3
-├── src
-|   ├── functional_tests
+├── docs/
+├── infra/
+|   ├── deploy-playbook.yaml
+│   └── env.j2
+├── src/
+|   ├── functional_tests/
 |   │   ├── __init__.py
-|   │   ├── tests.py
-|   ├── lists
-|   │   ├── __init__.py
-|   │   ├── admin.py
-|   │   ├── apps.py
-|   │   ├── migrations
+|   │   └── tests.py
+|   ├── lists/
+|   │   ├── migrations/
 |   │   │   ├── 0001_initial.py
 |   │   │   ├── 0002_item_text.py
+|   │   │   ├── 0003_list.py
+|   │   │   ├── 0004_item_list.py
 |   │   │   └── __init__.py
-|   │   ├── models.py
-|   │   ├── static
-|   │   │   └── bootstrap
-|   |   │       ├── css
+|   │   ├── static/
+|   │   │   └── bootstrap/
+|   |   │       ├── css/
 |   |   |       │   ├── bootstrap-grid.css
 |   │   │       |   ├── [...]
 |   │   │       |   └── bootstrap.rtl.min.css.map
-|   |   │       └── js
+|   |   │       └── js/
 |   |   |           ├── bootstrap.bundle.js
 |   │   │           ├── [...]
 |   │   │           └── bootstrap.min.js.map
-|   │   ├── templates
+|   │   ├── templates/
+|   │   │   ├── base.html
 |   │   │   ├── home.html
 |   │   │   └── list.html
+|   │   ├── __init__.py
+|   │   ├── admin.py
+|   │   ├── apps.py
+|   │   ├── models.py
 |   │   ├── tests.py
+|   │   ├── urls.py
 |   │   └── views.py
-|   ├── manage.py
-|   └── superlists
-|       ├── __init__.py
-|       ├── asgi.py
-|       ├── settings.py
-|       ├── urls.py
-|       └── wsgi.py
-└──static
-    └── [...]
+|   ├── superlists/
+|   |   ├── __init__.py
+|   |   ├── asgi.py
+|   |   ├── settings.py
+|   |   ├── urls.py
+|   |   └── wsgi.py
+|   └── manage.py
+├── .dockerignore
+├── .gitattributes
+├── .gitignore
+├── db.sqlite3
+├── Dockerfile
+├── readme.md
+├── requirements_unix.txt
+└── requirements.txt
 ```
 
 # Some considerations
@@ -88,8 +100,7 @@ chmod 600 ~/.ssh/<your private key filename>
 If you need to access your Windows files from WSL, the path starts with `/mnt/c/` instead of `C:/`.<br>
 For example, if you want to access `C:/<Windows user>/<your project folder>`, the corresponding path in WSL is `/mnt/c/<Windows user>/<your project folder>`.
 
-I also recreated my Python virtual environment inside WSL. This was necessary to activate it from a Unix-based environment rather than Windows, to use the libraries listed in `requirements.txt`.
-
+I also created a new Python virtual environment inside WSL. This was necessary to activate it from a Unix-based environment rather than Windows, to use the libraries listed in `requirements_unix.txt`.
 
 ## Ansible vs SSH: How we talk to our server
 
