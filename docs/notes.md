@@ -205,20 +205,11 @@ docker inspect superlists
 # To inspect the image
 # docker image inspect <image-name>
 docker image inspect superlists
+
+# To test a single FT
+# python src/manage.py test <FT's folder>.<FT file without the extension>
+python src/manage.py test functional_tests.test_list_item_validation
 ```
-
-## Testing Best Practices
-- **Ensure test isolation**: Different tests shouldn't affect one another, i.e. we need to reset any permanent state at the end of each test.
-- **Avoid voodoo sleeps**: The length of time we wait is always a bot of a shot in the dark. Either too short and vulnerable to spurious failures, or too long and it'll slow down our test runs. Prefer a retry loop that polls our app and moves on as soon as possible.
-- **Don't rely on Selenium's implicit waits**: The implementation of the implicit waits varies between browsers, and is not always reliable. Remember: "Explict is better than implicit".
-
-
-## Production-Readlines Config
-- **Don't use Django dev server in production**: Something like Gunicorn or uWSGI is abetter tool for running Django; it will let you run multple workers, for example.
-- **Decide how to serve your static files**: Static files aren't the same kind of things as the dynamic content that comes from Django and your webapp, so they need to be treated differently. WhiteNoise is just one example of how you might do that.
-- **Check your settings.py for dev-only config**: DEBUG=True, ALLOWED_HOSTS and SECRET_KEY are the ones we came accross, but you will probably have others.
-- **Change things one at time and rerun your tests frequently**: Whenever we make a change to our server configuration, we can rerun the test suite, and either be confident that everything works as well as it did before, or find our immediately if we did something wrong.
-- **Think about logging and observability**: When things go wrong, you need to be able to find out what happened. At a minimum you need a way of getting logs and tracebacks out of your server, and in more advanced environments you'll want to think about metrics and tracing too.
 
 ## Handling line endings issues between Windows and Linux
 While working with Ansible on WSL, I ran into an issue where the `ansible-playbook` command was failing due to line endings being formatted for Windows(`CRLF`) instead of Linux (`LF`).
@@ -239,6 +230,36 @@ And running the following commands to reformat the files in Git:
 git add --renormalize .
 git commit -m "Normalize line endings to LF"
 ```
+
+## Testing Best Practices
+- **Ensure test isolation**: Different tests shouldn't affect one another, i.e. we need to reset any permanent state at the end of each test.
+- **Avoid voodoo sleeps**: The length of time we wait is always a bot of a shot in the dark. Either too short and vulnerable to spurious failures, or too long and it'll slow down our test runs. Prefer a retry loop that polls our app and moves on as soon as possible.
+- **Don't rely on Selenium's implicit waits**: The implementation of the implicit waits varies between browsers, and is not always reliable. Remember: "Explict is better than implicit".
+
+## Tips on Organising Tests and Refactoring
+- Use a tests folder. Just as you use multiple files to hold your application code, you should split your tests out into multiple files.
+   - For functional tests, group them into tests for a particular feature or user story.
+   - For unit tests, use a folder called tests, with a __init__.py.
+   - You probably want a separate test file for each tested source code file. For Django, that’s typically test_models.py, test_views.py, and test_forms.py.
+
+- Have at least a placeholder test for every function and class.
+- Don’t forget the "Refactor" in "Red, Green, Refactor". The whole point of having tests is to allow you to refactor your code! Use them, and make your code (including your tests) as clean as you can.
+
+- Don’t refactor against failing tests: The general rule is that you shouldn’t mix refactoring and behaviour change. Having green tests is our best guarantee that we aren’t changing behaviour. If you start refactoring against failing tests, it becomes much harder to spot when you’re accidentally introducing a regression.
+   - This applies strongly to unit tests. With functional tests, because we often develop against red FTs anyway, it’s sometimes more tempting to refactor against failing tests. The author suggestion, is to avoid that temptation and use an early return, so that it’s 100% clear if, during a refactory, you accidentally introduce a regression that’s picked up in your FTs.
+   
+- You can occasionally put a skip on a test which is testing something you haven’t written yet.
+- More commonly, make a note of the refactor you want to do, finish what you’re working on, and do the refactor a little later, when you’re back to a working state.
+- Don’t forget to remove any skips before you commit your code! You should always review your diffs line by line to catch things like this.
+- Try a generic wait_for helper: Having specific helper methods that do explicit waits is great, and it helps to make your tests readable. But you’ll also often need an ad-hoc one-line assertion or Selenium interaction that you’ll want to add a wait to. self.wait_for does the job well for me, but you might find a slightly different pattern works for you.
+
+
+## Production-Readlines Config
+- **Don't use Django dev server in production**: Something like Gunicorn or uWSGI is abetter tool for running Django; it will let you run multple workers, for example.
+- **Decide how to serve your static files**: Static files aren't the same kind of things as the dynamic content that comes from Django and your webapp, so they need to be treated differently. WhiteNoise is just one example of how you might do that.
+- **Check your settings.py for dev-only config**: DEBUG=True, ALLOWED_HOSTS and SECRET_KEY are the ones we came accross, but you will probably have others.
+- **Change things one at time and rerun your tests frequently**: Whenever we make a change to our server configuration, we can rerun the test suite, and either be confident that everything works as well as it did before, or find our immediately if we did something wrong.
+- **Think about logging and observability**: When things go wrong, you need to be able to find out what happened. At a minimum you need a way of getting logs and tracebacks out of your server, and in more advanced environments you'll want to think about metrics and tracing too.
 
 ## A brief recap of a typical set of steps for deployment in general
 1. Provisioning a server
